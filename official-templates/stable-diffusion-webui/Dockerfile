@@ -1,5 +1,4 @@
 FROM nvidia/cuda:12.0.0-devel-ubuntu22.04
-LABEL image.authors="Dharma"
 WORKDIR /workspace
 
 RUN apt update && apt install -y \
