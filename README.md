@@ -1,2 +1,2 @@
-# Podwise containers
+#containers
 GPU Container Platform Image Repository
