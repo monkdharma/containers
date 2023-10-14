@@ -1,11 +1,10 @@
 variable "RELEASE" {
-    default = "latest"
+    default = "0.0.1"
 }
 
 target "default" {
     dockerfile = "Dockerfile"
-    platforms = ["linux/amd64", "linux/arm64"]
-    tags = ["dharma18/stable-diffusion:web-ui-${RELEASE}"]
+    tags = ["harbor.podwise.co/podwise/stable-diffusion:web-ui-${RELEASE}"]
     contexts = {
         scripts = "../../container-template"
         proxy = "../../container-template/proxy"
