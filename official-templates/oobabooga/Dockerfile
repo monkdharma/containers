@@ -22,7 +22,6 @@ RUN pip3 install --upgrade pip setuptools && \
 RUN git clone https://github.com/oobabooga/text-generation-webui && \
     cd text-generation-webui && \
     pip3 install -r requirements.txt
-
 COPY --from=proxy nginx.conf /etc/nginx/nginx.conf
 
 # Start Scripts
