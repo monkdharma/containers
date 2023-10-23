@@ -26,3 +26,7 @@ RUN pip3 install --no-cache-dir jupyterlab ipywidgets ipykernel matplotlib
 ARG TENSORFLOW_VERSION=1.15.5
 RUN pip3 install --user --upgrade tensorflow
 
+COPY --from=scripts start.sh /
+RUN chmod +x /start.sh
+
+CMD ["/start.sh"]

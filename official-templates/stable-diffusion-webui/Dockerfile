@@ -7,9 +7,9 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
   git \
   python3.10 \
   python3.10-venv \
+  python3-pip \
   libgl1 \
   libglib2.0-0 \
-  pip \
   openssh-server \
   net-tools \
   vim \
@@ -24,9 +24,20 @@ RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui \
   && cd stable-diffusion-webui; \
   pip install -r requirements_versions.txt; \
   pip install -r requirements.txt
-COPY Cyberpunk-Anime-Diffusion/Cyberpunk-Anime-Diffusion.safetensors /workspace/stable-diffusion-webui/models/Stable-diffusion/
-RUN mkdir /workspace/stable-diffusion-webui/extensions/Stable-Diffusion-Webui-Civitai-Helper
-COPY Stable-Diffusion-Webui-Civitai-Helper /workspace/stable-diffusion-webui/extensions/Stable-Diffusion-Webui-Civitai-Helper/
+
+# Cache Models
+RUN cd /workspace/stable-diffusion-webui && \
+    git clone https://github.com/Mikubill/sd-webui-controlnet.git extensions/sd-webui-controlnet && \
+    cd extensions/sd-webui-controlnet && \
+    pip3 install -r requirements.txt && \
+    cd /workspace/stable-diffusion-webui && \
+    git clone https://github.com/butaixianran/Stable-Diffusion-Webui-Civitai-Helper.git extensions/Stable-Diffusion-Webui-Civitai-Helper && \ 
+    wget https://huggingface.co/lllyasviel/ControlNet-v1-1/resolve/main/control_v11p_sd15_canny.pth -O extensions/sd-webui-controlnet/models/control_v11p_sd15_canny.pth && \
+    wget https://huggingface.co/lllyasviel/ControlNet-v1-1/resolve/main/control_v11p_sd15_canny.yaml -O extensions/sd-webui-controlnet/models/control_v11p_sd15_canny.yaml && \
+    wget https://huggingface.co/DGSpitzer/Cyberpunk-Anime-Diffusion/resolve/main/Cyberpunk-Anime-Diffusion.safetensors -O /workspace/stable-diffusion-webui/models/Stable-diffusion/Cyberpunk-Anime-Diffusion.safetensors && \
+    wget https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors -O /workspace/stable-diffusion-webui/models/Stable-diffusion/sd_xl_base_1.0.safetensors && \
+    wget https://huggingface.co/stabilityai/stable-diffusion-xl-refiner-1.0/resolve/main/sd_xl_refiner_1.0.safetensors -O /workspace/stable-diffusion-webui/models/Stable-diffusion/sd_xl_refiner_1.0.safetensors
+
 COPY --from=proxy nginx.conf /etc/nginx/nginx.conf
 
 # Start Scripts
