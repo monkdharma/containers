@@ -1,8 +1,10 @@
 ARG BASE_IMAGE=nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04 
 FROM $BASE_IMAGE
 ARG DEBIAN_FRONTEND=noninteractive
+WORKDIR /workspace
 ENV TZ=Asia/Shanghai
 ENV arch=x86_64
+ENV DEBIAN_FRONTEND=noninteractive
 
 # install python
 ARG PYTHON_VERSION=3.9
@@ -23,7 +25,6 @@ RUN pip3 install --no-cache-dir torch==$TORCH_VERSION torchvision torchaudio --e
 RUN pip3 install --no-cache-dir jupyterlab ipywidgets ipykernel matplotlib
 
 # install tensorflow
-ARG TENSORFLOW_VERSION=1.15.5
 RUN pip3 install --user --upgrade tensorflow
 
 COPY --from=scripts start.sh /
