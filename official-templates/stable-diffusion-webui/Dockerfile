@@ -36,7 +36,8 @@ RUN cd /workspace/stable-diffusion-webui && \
     wget https://huggingface.co/lllyasviel/ControlNet-v1-1/resolve/main/control_v11p_sd15_canny.yaml -O extensions/sd-webui-controlnet/models/control_v11p_sd15_canny.yaml && \
     wget https://huggingface.co/DGSpitzer/Cyberpunk-Anime-Diffusion/resolve/main/Cyberpunk-Anime-Diffusion.safetensors -O /workspace/stable-diffusion-webui/models/Stable-diffusion/Cyberpunk-Anime-Diffusion.safetensors && \
     wget https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors -O /workspace/stable-diffusion-webui/models/Stable-diffusion/sd_xl_base_1.0.safetensors && \
-    wget https://huggingface.co/stabilityai/stable-diffusion-xl-refiner-1.0/resolve/main/sd_xl_refiner_1.0.safetensors -O /workspace/stable-diffusion-webui/models/Stable-diffusion/sd_xl_refiner_1.0.safetensors
+    wget https://huggingface.co/stabilityai/stable-diffusion-xl-refiner-1.0/resolve/main/sd_xl_refiner_1.0.safetensors -O /workspace/stable-diffusion-webui/models/Stable-diffusion/sd_xl_refiner_1.0.safetensors && \
+    wget https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned-emaonly.safetensors -O /workspace/stable-diffusion-webui/models/Stable-diffusion/v1-5-pruned-emaonly.safetensors
 
 COPY --from=proxy nginx.conf /etc/nginx/nginx.conf
 
