@@ -42,7 +42,6 @@ RUN cd /workspace/stable-diffusion-webui && \
 COPY --from=proxy nginx.conf /etc/nginx/nginx.conf
 
 # Start Scripts
-COPY pre_start.sh /pre_start.sh
 COPY post_start.sh /post_start.sh
 COPY --from=scripts start.sh /
 RUN chmod +x /start.sh

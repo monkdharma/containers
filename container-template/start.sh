@@ -26,7 +26,7 @@ setup_ssh() {
     if [[ $PODWISE_PUBLIC_KEY ]]; then
         echo "Setting up SSH..."
         mkdir -p ~/.ssh
-        echo "$PUBLIC_KEY" >> ~/.ssh/authorized_keys
+        echo "$PODWISE_PUBLIC_KEY" >> ~/.ssh/authorized_keys
         chmod 700 -R ~/.ssh
         service ssh start
     fi
@@ -35,17 +35,18 @@ setup_ssh() {
 
 # Start jupyter lab
 start_jupyter() {
-    if [[ $PODWISE_PODWISE_JUPYTER_PASSWORD ]]; then
-        echo "Starting Jupyter Lab..."
-        mkdir -p /workspace && \
-        cd / && \
-        nohup jupyter lab --allow-root --no-browser --port=8888 --ip=* --FileContentsManager.delete_to_trash=False --ServerApp.terminado_settings='{"shell_command":["/bin/bash"]}' --ServerApp.password=$PODWISE_JUPYTER_PASSWORD --ServerApp.token=$PODWISE_JUPYTER_PASSWORD --ServerApp.allow_origin=* --ServerApp.preferred_dir=/workspace &> /jupyter.log &
-        echo "Jupyter Lab started"
-    fi
     if [[ $PODWISE_START_JUPYTER ]]; then
-        echo "Starting Jupyter Lab..."
-	nohup jupyter lab --allow-root --no-browser --port=8888 --ip=* --FileContentsManager.delete_to_trash=False --ServerApp.terminado_settings='{"shell_command":["/bin/bash"]}' --ServerApp.token="" --ServerApp.password="" --ServerApp.allow_origin=* --ServerApp.preferred_dir=/workspace &> /jupyter.log &
-        echo "Jupyter Lab started"
+        if [[ $PODWISE_PODWISE_JUPYTER_PASSWORD ]]; then
+            echo "Starting Jupyter Lab..."
+            mkdir -p /workspace && \
+            cd / && \
+            nohup jupyter lab --allow-root --no-browser --port=8888 --ip=* --FileContentsManager.delete_to_trash=False --ServerApp.terminado_settings='{"shell_command":["/bin/bash"]}' --ServerApp.password=$PODWISE_JUPYTER_PASSWORD --ServerApp.token=$PODWISE_JUPYTER_PASSWORD --ServerApp.allow_origin=* --ServerApp.preferred_dir=/workspace &> /jupyter.log &
+            echo "Jupyter Lab started"
+        else
+            echo "Starting Jupyter Lab..."
+	    nohup jupyter lab --allow-root --no-browser --port=8888 --ip=* --FileContentsManager.delete_to_trash=False --ServerApp.terminado_settings='{"shell_command":["/bin/bash"]}' --ServerApp.token="" --ServerApp.password="" --ServerApp.allow_origin=* --ServerApp.preferred_dir=/workspace &> /jupyter.log &
+            echo "Jupyter Lab started"
+	fi
     fi
 }
 
