@@ -23,9 +23,10 @@ RUN mkdir -p ~/miniconda3 && \
     bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3 && \
     rm -rf ~/miniconda3/miniconda.sh && \
     ~/miniconda3/bin/conda init bash
-
+COPY bash.bashrc /etc/bash.bashrc
 COPY --from=proxy nginx.conf /etc/nginx/nginx.conf
+COPY --from=scripts podwise_info.sh /etc/podwise-motd
 COPY --from=scripts start.sh /
-RUN chmod +x /start.sh
+RUN chmod +x /start.sh && echo "source /etc/podwise-motd" >> ~/.bashrc
 
 CMD ["/start.sh"]

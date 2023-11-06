@@ -13,6 +13,8 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
   git-lfs \
   wget \
   curl \
+  vim \
+  nginx \
   python3-dev \
   python3-venv \
   python3-pip && \
@@ -35,6 +37,9 @@ RUN pip3 install --no-cache-dir jupyterlab ipywidgets ipykernel matplotlib
 RUN pip3 install --user --upgrade tensorflow
 
 COPY --from=scripts start.sh /
-RUN chmod +x /start.sh
+COPY --from=scripts podwise_info.sh /etc/podwise-motd 
+COPY --from=scripts nvidia_entrypoint.sh /opt/nvidia/
+RUN chmod +x /start.sh && chmod +x /opt/nvidia/nvidia_entrypoint.sh && echo "source /etc/podwise-motd" >> ~/.bashrc 
 
 CMD ["/start.sh"]
+

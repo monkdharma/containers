@@ -40,10 +40,27 @@ start_jupyter() {
             echo "Starting Jupyter Lab..."
             mkdir -p /workspace && \
             cd / && \
+	    mkdir -p /usr/local/share/jupyter/lab/settings && \
+	    cat > /usr/local/share/jupyter/lab/settings/overrides.json << EOF
+{
+  "@jupyterlab/apputils-extension:themes": {
+    "theme": "JupyterLab Dark"
+  }
+}
+EOF
             nohup jupyter lab --allow-root --no-browser --port=8888 --ip=* --FileContentsManager.delete_to_trash=False --ServerApp.terminado_settings='{"shell_command":["/bin/bash"]}' --ServerApp.password=$PODWISE_JUPYTER_PASSWORD --ServerApp.token=$PODWISE_JUPYTER_PASSWORD --ServerApp.allow_origin=* --ServerApp.preferred_dir=/workspace &> /jupyter.log &
             echo "Jupyter Lab started"
         else
             echo "Starting Jupyter Lab..."
+	    cd / && \
+	    mkdir -p /usr/local/share/jupyter/lab/settings && \
+            cat > /usr/local/share/jupyter/lab/settings/overrides.json << EOF
+{
+  "@jupyterlab/apputils-extension:themes": {
+    "theme": "JupyterLab Dark"
+  }
+}
+EOF
 	    nohup jupyter lab --allow-root --no-browser --port=8888 --ip=* --FileContentsManager.delete_to_trash=False --ServerApp.terminado_settings='{"shell_command":["/bin/bash"]}' --ServerApp.token="" --ServerApp.password="" --ServerApp.allow_origin=* --ServerApp.preferred_dir=/workspace &> /jupyter.log &
             echo "Jupyter Lab started"
 	fi

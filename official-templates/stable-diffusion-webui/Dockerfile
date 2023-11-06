@@ -25,6 +25,13 @@ RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui \
   pip install -r requirements_versions.txt; \
   pip install -r requirements.txt
 
+# install Miniconda
+RUN mkdir -p ~/miniconda3 && \
+    wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda3/miniconda.sh && \
+    bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3 && \
+    rm -rf ~/miniconda3/miniconda.sh && \
+    ~/miniconda3/bin/conda init bash
+
 # Cache Models
 RUN cd /workspace/stable-diffusion-webui && \
     git clone https://github.com/Mikubill/sd-webui-controlnet.git extensions/sd-webui-controlnet && \
@@ -44,6 +51,8 @@ COPY --from=proxy nginx.conf /etc/nginx/nginx.conf
 # Start Scripts
 COPY post_start.sh /post_start.sh
 COPY --from=scripts start.sh /
-RUN chmod +x /start.sh
+COPY --from=scripts podwise_info.sh /etc/podwise-motd
+COPY --from=scripts nvidia_entrypoint.sh /opt/nvidia/
+RUN chmod +x /start.sh && chmod +x /opt/nvidia/nvidia_entrypoint.sh && echo "source /etc/podwise-motd" >> ~/.bashrc
 
 CMD ["/start.sh"]
