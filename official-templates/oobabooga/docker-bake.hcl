@@ -1,5 +1,5 @@
 variable "RELEASE" {
-    default = "llama2-7b-1.0.2"
+    default = "llama2-7b-1.0.4"
 }
 
 target "default" {
