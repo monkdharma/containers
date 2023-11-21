@@ -28,7 +28,7 @@ RUN mkdir -p ~/miniconda3 && \
     ~/miniconda3/bin/conda init bash
 # install jupyterlab
 RUN pip3 install --no-cache-dir jupyterlab ipywidgets ipykernel matplotlib
-
+COPY --from=proxy nginx.conf /etc/nginx/nginx.conf
 COPY --from=scripts start.sh /
 COPY --from=scripts podwise_info.sh /etc/podwise-motd 
 COPY --from=scripts nvidia_entrypoint.sh /opt/nvidia/
