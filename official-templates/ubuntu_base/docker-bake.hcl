@@ -2,7 +2,8 @@ group "default" {
     targets = [
 	"2204-py3-cuda1180-devel",
         "2004-py3-cuda1131-devel",
-	"2004-py3-cuda1111-devel"
+	"2004-py3-cuda1111-devel",
+	"2204-jupyter-nginx"
 
     ]
 }
@@ -44,5 +45,17 @@ target "2004-py3-cuda1111-devel" {
     args = {
         BASE_IMAGE = "nvidia/cuda:11.1.1-cudnn8-devel-ubuntu20.04"
 	TORCH = "torch==1.10.1+cu111 torchvision==0.11.2+cu111 torchaudio==0.10.1 -f https://download.pytorch.org/whl/cu111/torch_stable.html"
+    }
+}
+
+target "2204-jupyter-nginx" {
+    dockerfile = "Dockerfile-0gpu"
+    tags = ["podwise/ubuntu:22.04-jupyter-nginx-1.0.0"]
+    contexts = {
+        scripts = "../../container-template"
+        proxy = "../../container-template/proxy"
+    }
+    args = {
+        BASE_IMAGE = "ubuntu:22.04"
     }
 }
