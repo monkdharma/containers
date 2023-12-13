@@ -50,7 +50,7 @@ target "2004-py3-cuda1111-devel" {
 
 target "2204-jupyter-nginx" {
     dockerfile = "Dockerfile-0gpu"
-    tags = ["podwise/ubuntu:22.04-jupyter-nginx-1.0.0"]
+    tags = ["podwise/ubuntu:22.04-jupyter-1.0.0"]
     contexts = {
         scripts = "../../container-template"
         proxy = "../../container-template/proxy"
